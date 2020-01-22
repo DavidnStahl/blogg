@@ -1,0 +1,44 @@
+﻿@model BloggUppgift.ViewModels.BloggViewModels
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var today = DateTime.Now;
+
+
+
+}
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+
+<div class="leftcontainer"></div>
+<div class="rightcontainer"></div>
+
+<div class="text-center">
+    <h1 class="display-4">David Ståhl´s Blogg</h1>
+    
+
+        <form asp-controller="Home" asp-action="CreateBlogg" method="post">
+
+            <label>Välj Kategori</label>
+
+            @for (var i = 0; i < Model.BloggCategories.Count - 1; i++)
+            {
+                <label>
+                    <input asp-for="BloggInfo.CategoryId" type="radio" value=@Model.BloggCategories[i].CategoryId />
+                    @Model.BloggCategories[i].CategoryDescription
+                </label>
+            }
+
+            <br />
+            <label>Dagens Datum: @today </label>
+            <br />
+            <label>Rubrik: <input class="headingInput"  maxlength="50" asp-for="BloggInfo.Heading" /></label> <br />
+            <br />
+            <textarea rows="15" cols="80"  maxlength="2000" asp-for="BloggInfo.BloggInput"></textarea>
+            <br />
+            <input type="submit" value="Lägg till blogg" />
+        </form>
+    
+</div>
+

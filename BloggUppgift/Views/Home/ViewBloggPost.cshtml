@@ -1,0 +1,31 @@
+﻿@model BloggUppgift.ViewModels.ArchiveBloggViewModel
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    
+}
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+<div class="leftcontainer"></div>
+<div class="rightcontainer"></div>
+
+<div class="text-center bloggcontainer">
+    <h1 class="display-4">David Ståhl´s Blogg</h1>
+    <div class="blogg-div">
+        <br />
+        <h5>Rubrik:  @Model.BloggInfo.Heading</h5>
+        <br />
+        <h5> Datum:  @Model.BloggInfo.Date</h5>
+        <br />
+        <h5>Kategori: @Model.BloggCategories[Model.BloggInfo.CategoryId - 1].CategoryDescription</h5>
+        <br />
+        <p class="text-left">@Model.BloggInfo.BloggInput</p>
+
+
+
+
+    </div>
+</div>
+

@@ -1,0 +1,56 @@
+﻿@model BloggUppgift.ViewModels.ArchiveBloggViewModel
+
+@{
+    ViewData["Title"] = "Sök på tidagare bloggar";
+    var bloggcount = 0;
+}
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+<div class="align-content-center">
+    <h1>@ViewData["Title"]</h1>
+    <form asp-controller="Home" asp-action="GetBySearch" method="get">
+
+        <label>Välj Kategori</label>
+        @foreach (var category in Model.BloggCategories)
+        {
+            <label>
+                <input asp-for="BloggInfo.CategoryId" type="radio" value=@category.CategoryId />
+                @category.CategoryDescription
+            </label>
+        }
+
+
+
+        <br />
+        <label>Sök på rubrik: <input input class="headingInput" maxlength="50" asp-for="BloggInfo.Heading" /></label> <input type="submit" value="Sök" />
+        <br />
+    </form>
+    <h2>Lista på blogginlägg</h2>
+
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Datum</th>
+                <th scope="col">Rubrik</th>
+                <th scope="col">Kategori</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var blogg in Model.BloggCategory.BloggInfo)
+            {
+                bloggcount++;
+            <tr>
+                <th scope="row">@bloggcount</th>
+                <td>@blogg.Date</td>
+                <td>@Html.ActionLink(@blogg.Heading, "ViewBloggPost", "Home", new { id = @blogg.Id }, null)</td>
+                <td>@blogg.Category.CategoryDescription</td>
+            </tr>
+            }
+            
+        </tbody>
+    </table>
+</div>

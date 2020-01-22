@@ -1,0 +1,71 @@
+﻿body {
+    background-color:white;
+}
+
+h1 {
+    color: black;
+    font-weight: 900;
+}
+
+.headingInput:focus {
+    
+    border: 3px solid #555;
+
+}
+.headingInput {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: ghostwhite;
+}
+
+.leftcontainer{
+    position:absolute;
+    width:200px;
+    height:600px;
+    background-color:green;
+    border:solid 3px black;
+
+}
+
+.bloggcontainer {
+
+    width: 600px;
+    margin-left: 250px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: ghostwhite;
+}
+
+.rightcontainer {
+    position: absolute;
+    width: 200px;
+    height: 600px;
+    margin-left: 900px;
+    background-color: red;
+    border: solid 3px black;
+}
+
+label {
+    color: black;
+    font-weight: 900;
+
+}
+
+textarea:focus {
+    border: 3px solid #555;
+}
+
+textarea {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color:ghostwhite;
+}
+.submit {
+    border: none; /*rewriting standard style, it is necessary to be able to change the size*/
+    height: 30px;
+    width: 70px;
+    font-weight: 900;
+}
