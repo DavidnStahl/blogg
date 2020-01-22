@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BloggUppgift.Models;
 using BloggUppgift.ViewModels;
+using BloggUppgift.Models.Strategy;
 
 namespace BloggUppgift.Controllers
 {

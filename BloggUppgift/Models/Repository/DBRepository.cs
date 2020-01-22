@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BloggUppgift.Models.Strategy;
 
 namespace BloggUppgift.Models
 {
@@ -10,11 +11,8 @@ namespace BloggUppgift.Models
     {
         public void CreateNewBlogg(BloggInfo model)
         {
-
-
             using (BloggContext db = new BloggContext())
-            {
-                
+            {               
                 var blogg = new BloggInfo()
                 {
                     CategoryId = model.CategoryId,
@@ -31,41 +29,19 @@ namespace BloggUppgift.Models
             var list = new List<BloggInfo>();
             if ((model.BloggInfo.CategoryId == 4 ||model.BloggInfo.CategoryId == 0) && model.BloggInfo.Heading == null)
             {
-                
-                using (BloggContext db = new BloggContext())
-                {
-                    list = db.BloggInfo.OrderByDescending(r => r.Date).ToList();
-                }
-                return list;
+                return new AllBloggsStrategy().Get(model); 
             }
             else if((model.BloggInfo.CategoryId == 0 || model.BloggInfo.CategoryId == 4)&& model.BloggInfo.Heading != null)
             {
-
-                using (BloggContext db = new BloggContext())
-                {
-                    list = db.BloggInfo.Where(r => r.Heading.StartsWith(model.BloggInfo.Heading)).ToList();
-                }
-                
-                return list;
+                return new BloggsBySearchwordStrategy().Get(model);
             }
             else if(model.BloggInfo.CategoryId != 4 && model.BloggInfo.CategoryId != 0 && model.BloggInfo.Heading == null)
             {
-
-                using (BloggContext db = new BloggContext())
-                {
-                    list = db.BloggInfo.Where(r => r.CategoryId == model.BloggInfo.CategoryId).ToList();
-                }
-                return list;
+                return new BloggsByCategoryStrategy().Get(model);
             }
             else if(model.BloggInfo.CategoryId != 4 && model.BloggInfo.CategoryId != 0 && model.BloggInfo.Heading != null)
             {
-
-                using (BloggContext db = new BloggContext())
-                {
-                    list = db.BloggInfo.Where(r => r.CategoryId == model.BloggInfo.CategoryId)
-                        .Where(r => r.Heading.StartsWith(model.BloggInfo.Heading)).ToList();
-                }
-                return list;
+                return new BloggsByCategoryAndSearchwordStrategy().Get(model);
             }
             return list;
         }
