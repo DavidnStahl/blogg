@@ -13,6 +13,7 @@ namespace BloggUppgift.Controllers
     public class HomeController : Controller
     {
         private BloggContext _context;
+        private DBRepository _repository = new DBRepository();
 
         public HomeController(BloggContext context)
         {
@@ -20,7 +21,6 @@ namespace BloggUppgift.Controllers
         }
         public IActionResult Index()
         {
-            
             var model = new ViewModels.BloggViewModels();
             model.BloggCategories = _context.BloggCategories.ToList();
             return View(model);
@@ -30,8 +30,7 @@ namespace BloggUppgift.Controllers
         {
             if(model.BloggInfo.CategoryId != 0 && model.BloggInfo.Heading != null && model.BloggInfo.BloggInput != null)
             {
-                var repository = new Models.DBRepository();
-                repository.CreateNewBlogg(model.BloggInfo);
+                _repository.CreateNewBlogg(model.BloggInfo);
                 ModelState.Clear();
                 return RedirectToAction("Index");
             }
@@ -53,20 +52,14 @@ namespace BloggUppgift.Controllers
         [HttpGet]
         public IActionResult GetBySearch(ArchiveBloggViewModel model)
         {
-            var repository = new Models.DBRepository();
-            
-            model.BloggCategory.BloggInfo = repository.GetBloggs(model).OrderByDescending(r => r.Date).ToList();
+            model.BloggCategory.BloggInfo = _repository.GetBloggs(model).OrderByDescending(r => r.Date).ToList();
             model.BloggCategories = _context.BloggCategories.ToList();
-            
-            
-            
             return View(model);
         }
         public IActionResult ViewBloggPost(int id)
         {
-            var repository = new Models.DBRepository();
             var model = new ArchiveBloggViewModel();
-            model.BloggInfo = repository.GetBloggDetails(id);
+            model.BloggInfo = _repository.GetBloggDetails(id);
             model.BloggCategories = _context.BloggCategories.ToList();
             return View(model);
         }
