@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using BloggUppgift.Models;
 using BloggUppgift.ViewModels;
 using BloggUppgift.Models.Strategy;
+using BloggUppgift.ViewModels;
 
 namespace BloggUppgift.Controllers
 {
@@ -15,6 +16,8 @@ namespace BloggUppgift.Controllers
     {
         private BloggContext _context;
         private DBRepository _repository = new DBRepository();
+        private BloggViewModels _bloggViewModel = new BloggViewModels();
+        private ArchiveBloggViewModel _archivedBloggViewModel = new ArchiveBloggViewModel();
 
         public HomeController(BloggContext context)
         {
@@ -22,9 +25,8 @@ namespace BloggUppgift.Controllers
         }
         public IActionResult Index()
         {
-            var model = new ViewModels.BloggViewModels();
-            model.BloggCategories = _context.BloggCategories.ToList();
-            return View(model);
+            _bloggViewModel.BloggCategories = _context.BloggCategories.ToList();
+            return View(_bloggViewModel);
         }
         [HttpPost]
         public IActionResult CreateBlogg(BloggViewModels model)
@@ -39,30 +41,27 @@ namespace BloggUppgift.Controllers
             {
                 return RedirectToAction("Index");
             }
-            
         }
 
         public IActionResult ArchivedPosts()
         {
-            var model = new ViewModels.ArchiveBloggViewModel();
-            model.BloggCategory.BloggInfo = _context.BloggInfo.OrderByDescending(r => r.Date).ToList();
-            model.BloggCategories = _context.BloggCategories.ToList();
+            _archivedBloggViewModel.BloggCategory.BloggInfo = _context.BloggInfo.OrderByDescending(r => r.Date).ToList();
+            _archivedBloggViewModel.BloggCategories = _context.BloggCategories.ToList();
 
-            return View(model);
+            return View(_archivedBloggViewModel);
         }
         [HttpGet]
         public IActionResult GetBySearch(ArchiveBloggViewModel model)
         {
-            model.BloggCategory.BloggInfo = _repository.GetBloggs(model).OrderByDescending(r => r.Date).ToList();
-            model.BloggCategories = _context.BloggCategories.ToList();
-            return View(model);
+            _archivedBloggViewModel.BloggCategory.BloggInfo = _repository.GetBloggs(model).OrderByDescending(r => r.Date).ToList();
+            _archivedBloggViewModel.BloggCategories = _context.BloggCategories.ToList();
+            return View(_archivedBloggViewModel);
         }
         public IActionResult ViewBloggPost(int id)
         {
-            var model = new ArchiveBloggViewModel();
-            model.BloggInfo = _repository.GetBloggDetails(id);
-            model.BloggCategories = _context.BloggCategories.ToList();
-            return View(model);
+            _archivedBloggViewModel.BloggInfo = _repository.GetBloggDetails(id);
+            _archivedBloggViewModel.BloggCategories = _context.BloggCategories.ToList();
+            return View(_archivedBloggViewModel);
         }
 
     }
